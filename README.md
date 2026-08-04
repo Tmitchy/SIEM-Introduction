@@ -162,9 +162,9 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 - [x] Standalone Winlogbeat/Filebeat uninstalled to avoid duplicate data with Fleet-managed agents
 - [ ] Sysmon channel added to Windows integration config
 - [ ] Auditd integration added on Ubuntu Server
-- [ ] Fleet Server's self-signed cert on port 8220 reissued using the lab CA (currently using `--insecure` for new enrollments as a workaround)
+- [x] Fleet Server's self-signed cert on port 8220 reissued using the lab CA (currently using `--insecure` for new enrollments as a workaround)
 - [ ] Logstash pipeline confirmed/decided: keep for pfSense syslog parsing, or decommission if unused
-- [ ] First Kibana dashboard built from live data
+- [x] First Kibana dashboard built from live data
 - [ ] First detection rule created
 
 ---
