@@ -51,7 +51,7 @@ Elasticsearch, Kibana, and Fleet Server are all hosted on the Ubuntu Server mach
 
 ---
 
-## 🔥 Firewall — Perimeter Configuration & Logging
+## 🔥 Firewall - Perimeter Configuration & Logging
 
 **Goal:** Every packet that reaches an endpoint passes through here first; this is the earliest point in the lab where I can see attempted access, not just what already landed on a host.
 
@@ -67,7 +67,7 @@ Elasticsearch, Kibana, and Fleet Server are all hosted on the Ubuntu Server mach
 
 ---
 
-## 🟢 SIEM Introduction — Elastic Stack
+## 🟢 SIEM Introduction - Elastic Stack
 
 **Goal:** Stand up the actual SIEM and get every host reporting into it, rather than sitting on locally-generated logs no one is looking at.
 
@@ -93,7 +93,7 @@ Re-IP'ing the lab to `10.10.10.0/24` broke every existing TLS certificate (Elast
 | Windows 11 | ✅ | Windows agent policy | System, Windows |
 | Windows Server (DC) | ✅ | Windows Server (DC) policy - dedicated, separate from Windows 11 | System, Windows (custom channels: Directory Service, DNS Server) |
 | Ubuntu Server | ✅ (also runs Fleet Server itself) | Fleet Server policy | System | 
-| Ubuntu Desktop | ✅ | Linux agent policy | System | Auditd | sysmtd |
+| Ubuntu Desktop | ✅ | Linux agent policy | System | Auditd | Sysmtd |
 
 All four endpoints are enrolled and reporting through Fleet as of this update. Standalone **Winlogbeat** and **Filebeat** - installed early on before settling on the Fleet-managed approach - were uninstalled from the hosts that had them, to avoid duplicate/conflicting data streams alongside the Elastic Agent integrations.
 
@@ -104,7 +104,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 ### 🪟 Windows 11 (Endpoint)
 **Goal:** Capture process creation, network connections, and user activity at the endpoint level.
 
-- Install **Sysmon** with a solid config (e.g. SwiftOnSecurity or Olaf Hartong's config) to log:
+- Install **Sysmon** with a solid config (e.g., SwiftOnSecurity or Olaf Hartong's config) to log:
   - Process creation (Event ID 1)
   - Network connections (Event ID 3)
   - Image/DLL loads (Event ID 7)
@@ -175,7 +175,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 - [Sysmon (Microsoft Sysinternals)](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 - [SwiftOnSecurity Sysmon Config](https://github.com/SwiftOnSecurity/sysmon-config)
 - [Olaf Hartong's Sysmon Modular Config](https://github.com/olafhartong/sysmon-modular)
-- [Microsoft — Advanced Audit Policy Configuration](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations)
+- [Microsoft - Advanced Audit Policy Configuration](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations)
 - [Windows Security Event Log Encyclopedia (Ultimate Windows Security)](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/)
 
 ### Linux Logging
@@ -185,7 +185,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 ### Log Shipping (Elastic Stack)
 - [Elastic Agent Reference](https://www.elastic.co/guide/en/fleet/current/elastic-agent-installation-configuration.html)
 - [Fleet and Elastic Agent Guide](https://www.elastic.co/guide/en/fleet/current/fleet-server.html)
-- [Elastic — Ingesting Windows Event Logs](https://www.elastic.co/guide/en/beats/winlogbeat/current/how-winlogbeat-works.html)
+- [Elastic - Ingesting Windows Event Logs](https://www.elastic.co/guide/en/beats/winlogbeat/current/how-winlogbeat-works.html)
 
 ### Firewall
 - [pfSense Official Documentation](https://docs.netgate.com/pfsense/en/latest/)
