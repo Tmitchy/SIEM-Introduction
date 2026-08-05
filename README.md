@@ -95,7 +95,7 @@ Re-IP'ing the lab to `10.10.10.0/24` broke every existing TLS certificate (Elast
 | Ubuntu Server | ✅ (also runs Fleet Server itself) | Fleet Server policy | System | 
 | Ubuntu Desktop | ✅ | Linux agent policy | System | Auditd | Sysmtd |
 
-All four endpoints are enrolled and reporting through Fleet as of this update. Standalone **Winlogbeat** and **Filebeat** - installed early on before settling on the Fleet-managed approach - were uninstalled from the hosts that had them, to avoid duplicate/conflicting data streams alongside the Elastic Agent integrations.
+All four endpoints are enrolled and reporting through Fleet as of this update. Standalone **Winlogbeat** and **Filebeat**, installed early on before settling on the Fleet-managed approach, were uninstalled from the hosts that had them to avoid duplicate/conflicting data streams alongside the Elastic Agent integrations.
 
 ![](https://github.com/Tmitchy/SIEM-Introduction/blob/main/images/Installed%20Fleet%20Agents%20and%20Server.png)
 
