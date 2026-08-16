@@ -179,3 +179,7 @@ With all four endpoints enrolled and reporting through Fleet, the next phase cov
 ---
 
 <p align="center"><i>Part 2 of a multi-part SOC home lab build series.</i></p>
+
+---
+
+[← Back to index](https://github.com/Tmitchy/-SOC-Home-Lab-Build/blob/f7b9b0f6ed427d66adc247fb4cf874bffe0771f7/README.md)
