@@ -1,5 +1,5 @@
 <h1 align="center">🖥️ SOC Home Lab - Build & Log Forwarding Plan</h1>
-<h3 align="center">Phase 2: Full Pipeline Live - Firewall through Dashboard, End to End</h3>
+<h3 align="center">Phase 3: Full Pipeline Live - Firewall through Dashboard, End to End</h3>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Stage-Full_Pipeline_Live-brightgreen?style=for-the-badge"/>
@@ -15,7 +15,7 @@ Before any SIEM can generate meaningful alerts, it needs consistent, well-config
 
 ---
 
-## 🧱 Lab Inventory — Virtual Machines
+## 🧱 Lab Inventory - Virtual Machines
 
 | # | OS | Role in Lab | Purpose |
 |---|---|---|---|
@@ -68,7 +68,7 @@ Elasticsearch, Kibana, Fleet Server, and Logstash all run on the Ubuntu Server b
 
 ---
 
-## 🟢 SIEM Introduction — Elastic Stack
+## 🟢 SIEM Introduction - Elastic Stack
 
 **Goal:** Stand up the actual SIEM and get every host reporting into it, rather than sitting on locally-generated logs no one is looking at.
 
@@ -114,7 +114,7 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 
 ---
 
-## 🪵 Logstash — pfSense Log Parsing
+## 🪵 Logstash - pfSense Log Parsing
 
 **Goal:** get pfSense's raw syslog output properly parsed and searchable, rather than sitting as one unstructured text blob per event.
 
