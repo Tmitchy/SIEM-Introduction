@@ -155,7 +155,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 
 ---
 
-## ✅ Progress... - Stage 2 (SIEM Live)
+### ✅ Progress... - Stage 2 (SIEM Live)
 
 - [x] Elasticsearch installed, secured, and reachable over HTTPS
 - [x] Kibana installed and trusting Elasticsearch's CA
@@ -172,7 +172,9 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 
 ---
 
-## 🔜 Next Document: [SIEM Live](SOC-Home-Lab-Build_2.md)
+### 🔜 Next Document: 
+
+[SIEM Live](SOC-Home-Lab-Build_2.md)
 
 With all four endpoints enrolled and reporting through Fleet, the next phase covers adding Sysmon/auditd data sources, deciding Logstash's role (pfSense syslog parsing vs. decommissioning), and building the first Kibana dashboards.
 
