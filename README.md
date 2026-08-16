@@ -172,7 +172,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 
 ---
 
-## 🔜 Next Document: [SIEM Live]()
+## 🔜 Next Document: [SIEM Live](SOC-Home-Lab-Build_2.md)
 
 With all four endpoints enrolled and reporting through Fleet, the next phase covers adding Sysmon/auditd data sources, deciding Logstash's role (pfSense syslog parsing vs. decommissioning), and building the first Kibana dashboards.
 
