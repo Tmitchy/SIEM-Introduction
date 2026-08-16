@@ -172,43 +172,9 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 
 ---
 
-## 📚 Resources I'm Using
+## 🔜 Next Document: [SIEM Live]()
 
-### Sysmon & Windows Logging
-- [Sysmon (Microsoft Sysinternals)](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
-- [SwiftOnSecurity Sysmon Config](https://github.com/SwiftOnSecurity/sysmon-config)
-- [Olaf Hartong's Sysmon Modular Config](https://github.com/olafhartong/sysmon-modular)
-- [Microsoft - Advanced Audit Policy Configuration](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations)
-- [Windows Security Event Log Encyclopedia (Ultimate Windows Security)](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/)
-
-### Linux Logging
-- [rsyslog Documentation](https://www.rsyslog.com/doc/)
-- [Linux auditd Guide (Red Hat)](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/auditing-the-system_security-hardening)
-
-### Log Shipping (Elastic Stack)
-- [Elastic Agent Reference](https://www.elastic.co/guide/en/fleet/current/elastic-agent-installation-configuration.html)
-- [Fleet and Elastic Agent Guide](https://www.elastic.co/guide/en/fleet/current/fleet-server.html)
-- [Elastic - Ingesting Windows Event Logs](https://www.elastic.co/guide/en/beats/winlogbeat/current/how-winlogbeat-works.html)
-
-### Firewall
-- [pfSense Official Documentation](https://docs.netgate.com/pfsense/en/latest/)
-- [pfSense Syslog / Remote Logging Setup](https://docs.netgate.com/pfsense/en/latest/monitoring/syslog.html)
-
-### Networking & Lab Setup
-- [VirtualBox Networking Modes Explained](https://www.virtualbox.org/manual/ch06.html)
-- [Active Directory Home Lab Setup Guide](https://adsecurity.org/?page_id=41)
-
-### Detection Engineering (for later phases)
-- [MITRE ATT&CK Framework](https://attack.mitre.org/)
-- [Sigma Rules Repository](https://github.com/SigmaHQ/sigma)
-
-> This list will keep growing as the lab progresses - new resources get added as I hit new problems.
-
----
-
-## 🔜 Next Document: Detection Engineering
-
-With all four endpoints enrolled and reporting through Fleet, the next phase covers adding Sysmon/auditd data sources, deciding Logstash's role (pfSense syslog parsing vs. decommissioning), building the first Kibana dashboards, and writing the first detection rules mapped to MITRE ATT&CK.
+With all four endpoints enrolled and reporting through Fleet, the next phase covers adding Sysmon/auditd data sources, deciding Logstash's role (pfSense syslog parsing vs. decommissioning), and building the first Kibana dashboards.
 
 ---
 
