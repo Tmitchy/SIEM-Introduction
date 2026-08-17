@@ -108,7 +108,7 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 
 **Fix:** Located the exact line in `kibana.yml`, replaced the stale fingerprint with the current CA's actual SHA-256 fingerprint (computed via `openssl x509 -noout -fingerprint -sha256`, converted to the correct format via `sed`/`tr`), and restarted Kibana and all affected agents. Verified via direct Elasticsearch queries that real data resumed flowing within minutes.
 
-**Why this was hard to find:** the failure mode looked identical to "everything's fine" from almost every angle - healthy agent status, a populated (if stale) document count, and a UI that never surfaced the actual blocking value since it lived outside the editable settings page entirely. Getting to the real cause required distrusting every UI-level signal and going straight to Elasticsearch's raw API for ground truth.
+**Why this was hard to find:** The failure mode looked identical to "everything's fine" from almost every angle - healthy agent status, a populated (if stale) document count, and a UI that never surfaced the actual blocking value since it lived outside the editable settings page entirely. Getting to the real cause required distrusting every UI-level signal and going straight to Elasticsearch's raw API for ground truth.
 
 This is documented in full, including every dead end (a Kibana rendering glitch, an accidentally tiny time-range filter, a duplicate output entry) in the [Incident Documentation repo](./incident-documentation/).
 
@@ -128,7 +128,7 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 
 ---
 
-![](https://raw.githubusercontent.com/Tmitchy/SIEM-Introduction/main/images/Kibana.png)
+![](https://raw.githubusercontent.com/Tmitchy/SIEM-Introduction/main/images/kibana.png)
 
 ---
 
