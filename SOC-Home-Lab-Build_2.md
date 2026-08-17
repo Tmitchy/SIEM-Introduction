@@ -127,6 +127,8 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 **Confirmed working:** live firewall block events (e.g. a blocked broadcast packet from a stale old-network IP hitting the new lab subnet) now land in Elasticsearch with fully parsed fields, correctly separated from unrelated DHCP/system chatter.
 
 ---
+![](https://raw.githubusercontent.com/Tmitchy/-S/main/images/Kibana.png)
+---
 
 ## ⚙️ Per-OS Configuration Plan
 
