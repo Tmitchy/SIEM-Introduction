@@ -164,9 +164,9 @@ All four endpoints are enrolled and reporting through Fleet as of this update. S
 - [x] Windows Server (DC) enrolled under a dedicated policy with Directory Service + DNS Server channels
 - [x] Ubuntu Desktop enrolled
 - [x] Standalone Winlogbeat/Filebeat uninstalled to avoid duplicate data with Fleet-managed agents
-- [ ] Sysmon channel added to Windows integration config
-- [ ] Auditd integration added on Ubuntu Server
-- [ ] Logstash pipeline confirmed/decided: keep for pfSense syslog parsing, or decommission if unused
+- [x] Sysmon channel added to Windows integration config
+- [x] Auditd integration added on Ubuntu Server
+- [x] Logstash pipeline confirmed/decided: keep for pfSense syslog parsing, or decommission if unused
 - [x] First Kibana dashboard built from live data
 - [ ] First detection rule created
 
