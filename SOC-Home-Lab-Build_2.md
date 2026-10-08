@@ -76,8 +76,8 @@ Elasticsearch, Kibana, Fleet Server, and Logstash all run on the Ubuntu Server b
 **Stack chosen:** Elasticsearch + Kibana + Fleet Server, all running on the Ubuntu Server VM (`10.10.10.102`), with no separate dedicated SIEM VM. Keeps the lab lean for now; can be split onto its own VM later if resource contention becomes an issue.
 
 ### What's running
-- ** Elasticsearch ** - the data store, secured with TLS (X-Pack security enabled by default on 8.x)
-- ** Kibana ** - the dashboard/analysis layer, connects to Elasticsearch over HTTPS
+- **Elasticsearch** - the data store, secured with TLS (X-Pack security enabled by default on 8.x)
+- **Kibana** - the dashboard/analysis layer, connects to Elasticsearch over HTTPS
 - **Fleet Server** - the enrollment and policy-management layer; every endpoint agent checks in here on port `8220` before shipping data to Elasticsearch
 
 ### A deliberate architecture change from the original plan
