@@ -26,6 +26,7 @@ Before any SIEM can generate meaningful alerts, it needs consistent, well-config
 | 5 | **pfSense Firewall** | Perimeter / Gateway | Sits at the edge of the lab network, traffic filtering, and the first log source that shows *what tried to get in* before it ever reaches an endpoint. Now actively forwarding filterlog + system events via syslog |
 | 6 | **Elastic Stack (on Ubuntu Server)** | SIEM: Elasticsearch, Kibana, Fleet Server | Central log store, dashboards, and the enrollment point every other agent connects through |
 | 7 | **Logstash (on Ubuntu Server)** | Log parsing/routing layer | Receives pfSense's raw syslog, parses `filterlog`'s CSV format into structured fields, and routes everything into its own `logs-pfsense-default` data stream |
+| 8 | **Suricata (on pfSense)** | Network-layer IDS/IPS | Inspects traffic crossing the firewall for known attack signatures, not just allow/block decisions; alerts feed the same Elastic Stack pipeline via syslog, routed into their own `logs-suricata-default` data stream |
 
 > All VMs run on **VirtualBox**, networked on an internal/host-only adapter so traffic stays isolated from my home network.
 
@@ -72,7 +73,7 @@ Elasticsearch, Kibana, Fleet Server, and Logstash all run on the Ubuntu Server b
 
 **Goal:** Stand up the actual SIEM and get every host reporting into it, rather than sitting on locally-generated logs no one is looking at.
 
-**Stack chosen:** Elasticsearch + Kibana + Fleet Server, all running on the Ubuntu Server VM (`10.10.10.102`), no separate dedicated SIEM VM. Keeps the lab lean for now; can be split onto its own VM later if resource contention becomes an issue.
+**Stack chosen:** Elasticsearch + Kibana + Fleet Server, all running on the Ubuntu Server VM (`10.10.10.102`), with no separate dedicated SIEM VM. Keeps the lab lean for now; can be split onto its own VM later if resource contention becomes an issue.
 
 ### What's running
 - ** Elasticsearch ** - the data store, secured with TLS (X-Pack security enabled by default on 8.x)
@@ -129,6 +130,14 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 ---
 
 ![](https://raw.githubusercontent.com/Tmitchy/SIEM-Introduction/main/images/kibana.png)
+
+---
+
+## 🛰️ Network-Layer Detection - Suricata IDS/IPS Integration
+
+**Goal:** pfSense's firewall logging only tells me what was allowed or blocked at the connection level; it has no idea whether allowed traffic is actually malicious. Suricata adds signature-based intrusion detection on top of that, inspecting packet contents for known attack patterns, and feeding its own alerts into the same SIEM pipeline as everything else.
+
+**Architecture:** Suricata runs as a pfSense package, bound to the LAN interface, outputting EVE JSON logs over syslog (facility `local1`) rather than to a local file. Because pfSense only exposes a single global remote syslog destination (confirmed directly; there's no separate per-package target), Suricata's alerts share the same wire (`10.10.10.102:5514`) as pfSense's own `filterlog` traffic. Logstash's existing pipeline was extended with a conditional branch: any incoming message starting with `{` is treated as Suricata's JSON and parsed with a `json` filter, routed into its own `logs-suricata-default` data stream completely separate from `filterlog`'s CSV-parsed `pfsense` dataset, sharing the same config file and port without interfering with each other.
 
 ---
 
@@ -190,7 +199,7 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 - [x] Sysmon installed & configured on Windows 11
 - [ ] Advanced Audit Policy enabled on Windows Server
 - [x] auditd installed & rules applied on Ubuntu Server
-- [x] All VMs confirmed reachable on the internal lab network (5 originally planned, 6th — Ubuntu Image — found already enrolled)
+- [x] All VMs confirmed reachable on the internal lab network (5 originally planned, 6th Ubuntu Image found already enrolled)
 - [x] Static IPs assigned to each VM for consistent log source identification
 
 ## ✅ Readiness Checklist - Stage 2 (SIEM Live)
@@ -205,14 +214,14 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 - [x] Sysmon channel added to Windows integration config
 - [x] Auditd integration added on Ubuntu Server
 - [x] Logstash pipeline confirmed working, parsing and routing pfSense syslog into its own data stream
-- [ ] First Kibana dashboard built from live data ("SOC Lab Overview" — traffic over time, top blocked IPs, protocol breakdown, recent events table)
+- [ ] First Kibana dashboard built from live data ("SOC Lab Overview" - traffic over time, top blocked IPs, protocol breakdown, recent events table)
 - [ ] First detection rule created
 
 ---
 
 ## 🔜 Next Document: Detection Engineering
 
-After confirming the full pipeline works end-to-end with the firewall through the dashboard, the next phase involves enabling the Advanced Audit Policy on the Domain Controller and writing the first detection rules that are mapped to MITRE ATT&CK using real data generated by this lab.
+After confirming the full pipeline works end-to-end with the firewall through the dashboard, the next phase involves enabling the [Advanced Audit Policy on the Domain Controller](AD-User-Group-Administration.md) and writing the first detection rules that are mapped to MITRE ATT&CK using real data generated by this lab with Suricata.
 
 ---
 
