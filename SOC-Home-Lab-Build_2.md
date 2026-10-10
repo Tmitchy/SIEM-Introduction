@@ -119,13 +119,15 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 
 **Goal:** get pfSense's raw syslog output properly parsed and searchable, rather than sitting as one unstructured text blob per event.
 
-**The problem:** pfSense sends multiple message types over the same syslog stream:  `filterlog` (firewall block/pass decisions) is CSV-formatted, while DHCP and other system messages are plain text. An initial grok pattern designed for generic syslog text failed to match `filterlog`'s CSV format at all (100% grok failure rate), while a follow-up CSV filter over-applied itself to *every* pfSense message, corrupting the plain-text ones.
+**The problem:** pfSense sends multiple message types over the same syslog stream: 'filterlog` (firewall block/pass decisions) is CSV-formatted, while DHCP and other system messages are plain text. An initial grok pattern designed for generic syslog text failed to match `filterlog`'s CSV format at all (100% grok failure rate), while a follow-up CSV filter over-applied itself to *every* pfSense message, corrupting the plain-text ones.
 
 **The fix:**
-- Added a `csv` filter scoped specifically to `process.name == "filterlog"`, parsing fields like `action`, `src_ip`, `dst_ip`, `protocol`, `interface`, leaving every other pfSense message type (DHCP, system) untouched.
-- Explicitly set `[data_stream][dataset]` via `mutate { replace => ... }` (not `add_field`, which appends rather than overwrites) so pfSense events route to their own `logs-pfsense-default` data stream instead of falling into the generic Beats-destined index.
+- Added a `csv` filter scoped specifically to `process.name == "filterlog"`, parsing fields like `action`, `src_ip`, `dst_ip`, `protocol`, `interface ', leaving every other pfSense message type (DHCP, system) untouched
+- Explicitly set `[data_stream][dataset]` via `mutate { replace => ... }` (not `add_field`, which appends rather than overwrites) so pfSense events route to their own `logs-pfsense-default` data stream instead of falling into the generic Beats-destined index
+- Moved the Elasticsearch password out of plaintext config entirely, into Logstash's built-in keystore (`${ES_PASSWORD}`), after an earlier password ended up exposed in troubleshooting output and had to be rotated
 
 **Confirmed working:** live firewall block events (e.g. a blocked broadcast packet from a stale old-network IP hitting the new lab subnet) now land in Elasticsearch with fully parsed fields, correctly separated from unrelated DHCP/system chatter.
+
 
 ---
 
@@ -137,7 +139,9 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 
 **Goal:** pfSense's firewall logging only tells me what was allowed or blocked at the connection level; it has no idea whether allowed traffic is actually malicious. Suricata adds signature-based intrusion detection on top of that, inspecting packet contents for known attack patterns, and feeding its own alerts into the same SIEM pipeline as everything else.
 
-**Architecture:** Suricata runs as a pfSense package, bound to the LAN interface, outputting EVE JSON logs over syslog (facility `local1`) rather than to a local file. Because pfSense only exposes a single global remote syslog destination (confirmed directly; there's no separate per-package target), Suricata's alerts share the same wire (`10.10.10.102:5514`) as pfSense's own `filterlog` traffic. Logstash's existing pipeline was extended with a conditional branch: any incoming message starting with `{` is treated as Suricata's JSON and parsed with a `json` filter, routed into its own `logs-suricata-default` data stream completely separate from `filterlog`'s CSV-parsed `pfsense` dataset, sharing the same config file and port without interfering with each other.
+**Architecture:** Suricata runs as a pfSense package, bound to the LAN interface, writing EVE JSON output to its local `eve.json` file. A `tail -F` → `nc` pipeline streams new lines from that file straight to Logstash over a dedicated TCP port (`5515`), kept separate from the syslog port (`5514`) that pfSense's own `filterlog` traffic uses. Logstash parses the JSON and routes it into its own `logs-suricata-default` data stream, with `event.original` preserved cleanly through to full ECS mapping. pfSense handles rotation natively through its Suricata log management.
+
+**Validated end to end:** triggered a real signature match using the standard IDS test string (`curl http://testmyids.com`, which returns `uid=0(root)...` and matches the default `GPL ATTACK_RESPONSE id check returned root` rule). Confirmed the alert arrived in Elasticsearch fully and correctly parsed `alert.signature`, `alert.severity`, `alert.category`, `src_ip`/`dest_ip`, flow byte/packet counts, and correct `@timestamp`, all under `data_stream.dataset: "suricata"`, cleanly separated from firewall data.
 
 ---
 
