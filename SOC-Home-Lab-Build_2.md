@@ -225,7 +225,7 @@ This is documented in full, including every dead end (a Kibana rendering glitch,
 
 ## 🔜 Next Document: Detection Engineering
 
-Once the full pipeline has been confirmed to work end-to-end with the firewall through the dashboard, the next phase involves enabling the [Advanced Audit Policy on the Domain Controller](AD-User-Group-Administration.md). Additionally, we will write the first detection rules mapped to MITRE ATT&CK, using real data generated from this lab with Suricata.
+Once the full pipeline has been confirmed to work end-to-end with the firewall through the dashboard, the next phase involves enabling the [Advanced Audit Policy on the Domain Controller](https://github.com/Tmitchy/-SOC-Home-Lab-Build/blob/6bda95be8de8a4f3aec20762378e4562212b97c5/AD-User-Group-Administration.md). Additionally, we will write the first detection rules mapped to MITRE ATT&CK, using real data generated from this lab with Suricata.
 
 ---
 
